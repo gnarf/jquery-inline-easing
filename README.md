@@ -5,8 +5,8 @@ Allows jQuery Animate calls to take inline functions for easing methods.
 ## Getting Started
 Download the [production version][min] or the [development version][max].
 
-[min]: https://raw.github.com/gnarf37/inline-easing/master/dist/jquery-inline-easing.min.js
-[max]: https://raw.github.com/gnarf37/inline-easing/master/dist/jquery-inline-easing.js
+[min]: https://github.com/gnarf37/jquery-inline-easing/blob/master/dist/inline-easing.min.js
+[max]: https://github.com/gnarf37/jquery-inline-easing/blob/master/dist/inline-easing.js
 
 In your web page:
 
