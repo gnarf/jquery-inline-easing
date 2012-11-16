@@ -12,7 +12,7 @@ In your web page:
 
 ```html
 <script src="jquery.js"></script>
-<script src="dist/jquery-inline-easing.min.js"></script>
+<script src="dist/inline-easing.min.js"></script>
 <script>
 jQuery("#foo").fadeIn({
 	duration: 1000,
