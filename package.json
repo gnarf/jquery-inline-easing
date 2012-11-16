@@ -8,6 +8,7 @@
     "test": "grunt qunit"
   },
   "devDependencies": {
-    "grunt": "~0.4.0a"
+    "grunt": "~0.4.0a",
+    "grunt-compare-size": "0.2.0"
   }
 }

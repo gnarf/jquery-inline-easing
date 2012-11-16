@@ -21,6 +21,12 @@ module.exports = function(grunt) {
         dest: 'dist/<%= pkg.name %>.js'
       },
     },
+    compare_size: {
+      files: [
+        "dist/inline-easing.js",
+        "dist/inline-easing.min.js",
+      ]
+    },
     min: {
       options: {
         banner: '<config:banner>'
@@ -69,7 +75,7 @@ module.exports = function(grunt) {
     },
   });
 
+  grunt.loadNpmTasks('grunt-compare-size');
   // Default task.
-  grunt.registerTask('default', ['lint', 'qunit', 'concat', 'min']);
-
+  grunt.registerTask('default', ['lint', 'qunit', 'concat', 'min', 'compare_size']);
 };
