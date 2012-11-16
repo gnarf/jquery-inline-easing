@@ -5,17 +5,21 @@ Allows jQuery Animate calls to take inline functions for easing methods.
 ## Getting Started
 Download the [production version][min] or the [development version][max].
 
-[min]: https://raw.github.com/gnarf37/inline-easing/master/dist/inline-easing.min.js
-[max]: https://raw.github.com/gnarf37/inline-easing/master/dist/inline-easing.js
+[min]: https://raw.github.com/gnarf37/inline-easing/master/dist/jquery-inline-easing.min.js
+[max]: https://raw.github.com/gnarf37/inline-easing/master/dist/jquery-inline-easing.js
 
 In your web page:
 
 ```html
 <script src="jquery.js"></script>
-<script src="dist/inline-easing.min.js"></script>
+<script src="dist/jquery-inline-easing.min.js"></script>
 <script>
-jQuery(function($) {
-  $.awesome(); // "awesome"
+jQuery("#foo").fadeIn({
+	duration: 1000,
+	easing: function( p ) {
+		// takes a value from 0 -> 1, return scaled format
+		return p;
+	}
 });
 </script>
 ```
