@@ -7,23 +7,30 @@ var uuid = 0;
 var inlineEasingUUID = "inlineEasingUUID";
 
 jQuery.Animation.prefilter(function( element, properties, options ) {
-	var prop, value, stringName;
+	var prop;
 	var replaced = [];
 	var easing = options.specialEasing;
-	for( prop in easing ) {
-		value = easing[ prop ];
+
+	function mapFn( value ) {
+		var stringName;
 		if ( jQuery.type( value ) === 'function' ) {
 			stringName =
-				easing[ prop ] =
 				inlineEasingUUID + ( uuid++ );
 			jQuery.easing[ stringName ] = value;
 			replaced.push( stringName );
 		}
+		return stringName || value;
 	}
+
+	for( prop in easing ) {
+		easing[ prop ] = mapFn( easing[ prop ] );
+	}
+	options.easing = mapFn( options.easing );
+
 	if ( replaced.length ) {
 		this.always(function() {
 			for ( prop = 0; prop < replaced.length; prop++ ) {
-				delete jQuery.easing[ prop ];
+				delete jQuery.easing[ replaced[ prop ] ];
 			}
 		});
 	}
