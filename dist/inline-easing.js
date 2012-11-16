@@ -1,33 +1,33 @@
 /*! Inline Easing - v0.0.0 - 2012-11-16
 * https://github.com/gnarf37/jquery-inline-easing
 * Copyright (c) 2012 Corey Frang; Licensed MIT */
-(function($) {
+(function( jQuery ) {
 
-  // Collection method.
-  $.fn.awesome = function() {
-    return this.each(function(i) {
-      // Do something awesome to each selected element.
-      $(this).html('awesome' + i);
-    });
-  };
+var uuid = 0;
+var inlineEasingUUID = "inlineEasingUUID";
 
-  // Static method.
-  $.awesome = function(options) {
-    // Override default options with passed-in options.
-    options = $.extend({}, $.awesome.options, options);
-    // Return something awesome.
-    return 'awesome' + options.punctuation;
-  };
+jQuery.Animation.prefilter(function( element, properties, options ) {
+	var prop, value, stringName;
+	var replaced = [];
+	var easing = options.specialEasing;
+	for( prop in easing ) {
+		value = easing[ prop ];
+		if ( jQuery.type( value ) === 'function' ) {
+			stringName =
+				easing[ prop ] =
+				inlineEasingUUID + ( uuid++ );
+			jQuery.easing[ stringName ] = value;
+			replaced.push( stringName );
+		}
+	}
+	if ( replaced.length ) {
+		this.always(function() {
+			for ( prop = 0; prop < replaced.length; prop++ ) {
+				delete jQuery.easing[ prop ];
+			}
+		});
+	}
+});
 
-  // Static method default options.
-  $.awesome.options = {
-    punctuation: '.'
-  };
 
-  // Custom selector.
-  $.expr[':'].awesome = function(elem) {
-    // Is this element awesome?
-    return $(elem).text().indexOf('awesome') !== -1;
-  };
-
-}(jQuery));
+}( jQuery ));
