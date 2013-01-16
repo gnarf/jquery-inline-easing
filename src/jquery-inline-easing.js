@@ -1,10 +1,3 @@
-/*
- * inline-easing
- * https://github.com/gnarf37/jquery-inline-easing
- *
- * Copyright (c) 2012 Corey Frang
- * Licensed under the MIT license.
- */
 
 (function( jQuery ) {
 

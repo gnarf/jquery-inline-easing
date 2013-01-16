@@ -1,6 +1,7 @@
-/*! Inline Easing - v0.0.0 - 2012-11-16
+/*! jQuery Inline Easing - v0.1.0 - 2013-01-16
 * https://github.com/gnarf37/jquery-inline-easing
-* Copyright (c) 2012 Corey Frang; Licensed MIT */
+* Copyright (c) 2013 Corey Frang; Licensed MIT */
+
 (function( jQuery ) {
 
 var uuid = 0;

@@ -5,19 +5,18 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     // Metadata.
-    pkg: '<json:inline-easing.jquery.json>',
-    banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
-      '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-      '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
-      '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-      ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+    pkg: grunt.file.readJSON("package.json"),
     // Task configuration.
     concat: {
       options: {
-        banner: '<config:banner>'
+        banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
+          '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
+          '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
+          '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
+          ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n'
       },
       dist: {
-        src: ['<file_strip_banner:src/<%= pkg.name %>.js>'],
+        src: ['src/<%= pkg.name %>.js'],
         dest: 'dist/<%= pkg.name %>.js'
       },
     },
@@ -27,24 +26,29 @@ module.exports = function(grunt) {
         "dist/inline-easing.min.js",
       ]
     },
-    min: {
+    uglify: {
       options: {
-        banner: '<config:banner>'
+        banner: "/*! jQuery Inline Easing v<%= pkg.version %> | (c) <%= grunt.template.today('yyyy') %> <%= pkg.author.name %> | Licensed <%= _.pluck(pkg.licenses, \"type\").join(\", \") %> */\n",
+        sourceMap: "dist/jquery-inline-easing.min.map",
+        beautify: {
+          ascii_only: true
+        }
       },
-      dist: {
-        src: ['<config:concat.dist.dest>'],
-        dest: 'dist/<%= pkg.name %>.min.js'
+      all: {
+        files: {
+          "dist/jquery-inline-easing.min.js": ['src/jquery-inline-easing.js']
+        }
       },
     },
     qunit: {
       files: ['test/**/*.html']
     },
-    lint: {
+    jshint: {
       gruntfile: {
         options: {
           jshintrc: '.jshintrc'
         },
-        src: 'Gruntfile.js'
+        src: ['Gruntfile.js']
       },
       src: {
         options: {
@@ -61,21 +65,51 @@ module.exports = function(grunt) {
     },
     watch: {
       gruntfile: {
-        files: '<config:lint.gruntfile.src>',
-        tasks: ['lint:gruntfile']
+        files: '<config:jshint.gruntfile.src>',
+        tasks: ['jshint:gruntfile']
       },
       src: {
-        files: '<config:lint.src.src>',
-        tasks: ['lint:src', 'qunit']
+        files: '<config:jshint.src.src>',
+        tasks: ['jshint:src', 'qunit']
       },
       test: {
-        files: '<config:lint.test.src>',
-        tasks: ['lint:test', 'qunit']
+        files: '<config:jshint.test.src>',
+        tasks: ['jshint:test', 'qunit']
       },
     },
   });
 
-  grunt.loadNpmTasks('grunt-compare-size');
   // Default task.
-  grunt.registerTask('default', ['lint', 'qunit', 'concat', 'min', 'compare_size']);
+  grunt.loadNpmTasks("grunt-contrib-concat");
+  grunt.loadNpmTasks("grunt-contrib-watch");
+  grunt.loadNpmTasks("grunt-contrib-jshint");
+  grunt.loadNpmTasks("grunt-contrib-uglify");
+  grunt.loadNpmTasks("grunt-contrib-qunit");
+  grunt.registerTask('default', ['jshint', 'concat', 'qunit', 'manifest', 'concat', 'uglify']);
+
+  grunt.registerTask( "manifest", function() {
+    var pkg = grunt.config( "pkg" );
+    grunt.file.write( "inline-easing.jquery.json", JSON.stringify({
+      name: "inline-easing",
+      title: pkg.title,
+      description: pkg.description,
+      keywords: pkg.keywords,
+      version: pkg.version,
+      author: {
+        name: pkg.author.name,
+        url: pkg.author.url.replace( "master", pkg.version )
+      },
+      maintainers: pkg.maintainers,
+      licenses: pkg.licenses.map(function( license ) {
+        license.url = license.url.replace( "master", pkg.version );
+        return license;
+      }),
+      bugs: pkg.bugs,
+      homepage: pkg.homepage,
+      docs: pkg.homepage,
+      dependencies: {
+        jquery: ">=1.8"
+      }
+    }, null, "\t" ) );
+  });
 };

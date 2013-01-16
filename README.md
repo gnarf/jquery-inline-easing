@@ -2,17 +2,20 @@
 
 Allows jQuery Animate calls to take inline functions for easing methods.
 
-## Getting Started
-Download the [production version][min] or the [development version][max].
+## Release
+The release version of the code is found in the `dist/` directory.
 
-[min]: https://github.com/gnarf37/jquery-inline-easing/blob/master/dist/inline-easing.min.js
-[max]: https://github.com/gnarf37/jquery-inline-easing/blob/master/dist/inline-easing.js
+## Getting Started
+Download the [production version][min] or the [development version][max] of version 0.1.0.
+
+[min]: https://github.com/gnarf37/jquery-inline-easing/blob/0.1.0/dist/inline-easing.min.js
+[max]: https://github.com/gnarf37/jquery-inline-easing/blob/0.1.0/dist/inline-easing.js
 
 In your web page:
 
 ```html
 <script src="jquery.js"></script>
-<script src="dist/inline-easing.min.js"></script>
+<script src="dist/jquery-inline-easing.min.js"></script>
 <script>
 jQuery("#foo").fadeIn({
 	duration: 1000,
@@ -34,7 +37,7 @@ _(Coming soon)_
 _(Nothing yet)_
 
 ## License
-Copyright (c) 2012 Corey Frang  
+Copyright (c) 2013 Corey Frang  
 Licensed under the MIT license.
 
 ## Contributing
